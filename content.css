@@ -10,11 +10,19 @@
 .stretch-phrase[data-stretchable] {
     cursor: pointer;
     outline: none;
+    /* Always visible, always quiet. A stretchable phrase must be discoverable
+       without a hover, or the reader never learns the page is stretchable. */
+    text-decoration: underline dotted
+        color-mix(in srgb, currentColor 30%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
 }
 
 .stretch-phrase[data-stretchable]:hover {
     background-color: color-mix(in srgb, currentColor 8%, transparent);
-    box-shadow: 0 1px 0 0 color-mix(in srgb, currentColor 35%, transparent);
+    text-decoration: underline solid
+        color-mix(in srgb, currentColor 55%, transparent);
+    text-decoration-thickness: 1.5px;
 }
 
 .stretch-phrase[data-stretchable]:focus-visible {

@@ -186,7 +186,7 @@
     function insertMore(span, text, loading) {
         const more = document.createElement("span");
         more.className = MORE + (loading ? ` ${MORE}--loading` : "");
-        more.textContent = loading ? " …" : ` ${text}`;
+        more.textContent = loading ? " …" : expansionText(text);
         span.insertAdjacentElement("afterend", more);
         span.setAttribute("aria-expanded", "true");
     }

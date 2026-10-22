@@ -11,8 +11,8 @@ const root = path.join(__dirname, "..");
 // lib/sentences.js publishes a global; evaluate it the way a content script
 // would, then read the global back.
 (new Function(readFileSync(path.join(root, "lib/sentences.js"), "utf8")))();
-const { MIN_WORDS, sentences, isStretchable, textUrl, promptFor } =
-    globalThis.Stretchtext;
+const { MIN_WORDS, sentences, isStretchable, textUrl, promptFor, expansionText } =
+globalThis.Stretchtext;
 
 test("splits prose into sentences", () => {
     const parts = sentences("Hello world. How are you? Fine!");
@@ -74,6 +74,18 @@ test("asks for elaboration only, and names the source sentence", () => {
 test("never puts a key in the prompt", () => {
     const prompt = promptFor("Some sentence that is long enough.");
     assert.doesNotMatch(prompt, /sk_/);
+});
+
+test("pads an expansion with a space on both sides", () => {
+    // Regression: without the trailing space the elaboration ran straight into
+    // the next sentence — "installation process.Click any underlined phrase".
+    assert.equal(expansionText("Some elaboration."), " Some elaboration. ");
+    assert.ok(expansionText("x").endsWith(" "));
+    assert.ok(expansionText("x").startsWith(" "));
+});
+
+test("trims an expansion the API returned with surrounding whitespace", () => {
+    assert.equal(expansionText("\n  Some elaboration.  \n"), " Some elaboration. ");
 });
 
 test("exposes a minimum word threshold that matches the content script", () => {
