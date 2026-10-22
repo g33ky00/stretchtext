@@ -85,14 +85,17 @@
         if (typeof stored.apiKey === "string") state.key = stored.apiKey;
     }
 
-    chrome.storage.local.get(["enabled", "model", "apiKey"], (stored) => {
+    // chrome.storage.session is the extension analogue of sessionStorage: the
+    // key lives in memory and is gone when the browser closes. Re-running the
+    // connect step is the intended flow — there are no refresh tokens.
+    chrome.storage.session.get(["enabled", "model", "apiKey"], (stored) => {
         if (chrome.runtime.lastError) return;
         readStored(stored);
         render();
     });
 
     chrome.storage.onChanged.addListener((changes, area) => {
-        if (area !== "local") return;
+        if (area !== "session") return;
         readStored({
             enabled: changes.enabled?.newValue,
             model: changes.model?.newValue,

@@ -2,16 +2,22 @@
 //
 // Owns the two ways a reader can pay with their own Pollen:
 //
-//   1. Paste a Pollinations secret key (sk_...) — zero configuration.
-//   2. Connect with the device flow, using a registered App Key (pk_...) as
-//      the OAuth client id. The flow returns a scoped user key, so the reader
-//      never pastes a long-lived secret into the extension.
+//   1. Device flow (BYOP) — the headless path the Pollinations BYOP reference
+//      prescribes for CLIs, bots and extensions. It needs no App Key at all; a
+//      registered `pk_...` App Key only attributes the traffic to an account.
+//   2. Paste a Pollinations secret key (sk_...) — zero configuration.
 //
-// Keys live in chrome.storage.local and are only ever sent to gen.pollinations.ai
-// (API calls) or enter.pollinations.ai (device flow) — never anywhere else.
+// Storage follows the BYOP checklist: "token kept in memory/sessionStorage;
+// expiry handled by re-running the flow". `chrome.storage.session` is the
+// extension analogue of sessionStorage — memory-backed, cleared when the
+// browser closes. There are no refresh tokens, so the flow is re-run rather
+// than the key renewed. The key is only ever sent to gen.pollinations.ai
+// (generation) or enter.pollinations.ai (device flow).
 
 const GEN_BASE = "https://gen.pollinations.ai";
 const ENTER_BASE = "https://enter.pollinations.ai";
+
+const STORE = chrome.storage.session;
 
 const DEFAULTS = {
     enabled: true,
@@ -21,12 +27,12 @@ const DEFAULTS = {
 };
 
 async function readSettings() {
-    const stored = await chrome.storage.local.get(Object.keys(DEFAULTS));
+    const stored = await STORE.get(Object.keys(DEFAULTS));
     return { ...DEFAULTS, ...stored };
 }
 
 function writeSettings(patch) {
-    return chrome.storage.local.set(patch);
+    return STORE.set(patch);
 }
 
 // ---- device flow ---------------------------------------------------------
@@ -35,7 +41,9 @@ async function requestDeviceCode(appId) {
     const response = await fetch(`${ENTER_BASE}/api/device/code`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ client_id: appId }),
+        // An empty client_id is accepted; the consent screen then falls back to
+        // the redirect hostname and the traffic is unattributed.
+        body: JSON.stringify({ client_id: appId || "" }),
     });
     const body = await response.json().catch(() => null);
     if (!response.ok) {
@@ -44,7 +52,7 @@ async function requestDeviceCode(appId) {
     return body;
 }
 
-async function pollDeviceToken(deviceCode, interval) {
+async function pollDeviceToken(deviceCode) {
     const response = await fetch(`${ENTER_BASE}/api/device/token`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -53,7 +61,7 @@ async function pollDeviceToken(deviceCode, interval) {
     const body = await response.json().catch(() => null);
     if (response.ok && body?.access_token) return body.access_token;
     if (body?.error === "authorization_pending") return null;
-    if (body?.error === "slow_down") return undefined;
+    if (body?.error === "slow_down") return { slowDown: true };
     throw new Error(body?.error_description || body?.error || `${response.status}`);
 }
 

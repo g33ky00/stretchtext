@@ -144,10 +144,22 @@
 
             <h2>Connect</h2>
             <p>
-                Open the toolbar popup. Either paste a Pollinations secret key
-                from <a href="https://enter.pollinations.ai/keys">enter.pollinations.ai/keys</a>,
-                or register an App Key there and run the device flow so no
-                long-lived secret sits in the browser.
+                Open the toolbar popup and press <strong>Connect with Pollen</strong>.
+                The recommended path is the Pollinations
+                <strong>device flow</strong>: approve a code on
+                <a href="https://enter.pollinations.ai/device">enter.pollinations.ai/device</a>
+                and the extension receives a scoped key that works until it expires
+                or you revoke it. It needs no App Key — registering one only
+                attributes the spend to your account.
+            </p>
+            <p>
+                Prefer to paste a key instead? Create a secret key at
+                <a href="https://enter.pollinations.ai/keys">enter.pollinations.ai/keys</a>
+                and enter it on the options page. Either way the key lives in
+                <code>chrome.storage.session</code> — memory-backed, cleared when
+                the browser closes — and is sent only to
+                <code>gen.pollinations.ai</code> and
+                <code>enter.pollinations.ai</code>.
             </p>
 
             <h2>Repository</h2>

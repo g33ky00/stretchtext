@@ -18,33 +18,51 @@
             <h2>Pay with your own Pollen</h2>
 
             <div class="field">
-                <label for="apiKey">Pollinations secret key (sk_…)</label>
-                <input type="password" id="apiKey" autocomplete="off" spellcheck="false" />
+                <button id="device" type="button" class="primary">
+                    Connect with the device flow
+                </button>
                 <p class="hint">
-                    Create one at
-                    <a href="https://enter.pollinations.ai/keys" target="_blank" rel="noreferrer"
-                        >enter.pollinations.ai/keys</a
-                    >. The key stays in this browser and is only sent to
-                    gen.pollinations.ai.
+                    The recommended path, and the one the Pollinations BYOP
+                    reference prescribes for extensions. Approve a code on
+                    <a href="https://enter.pollinations.ai/device" target="_blank" rel="noreferrer"
+                        >enter.pollinations.ai/device</a
+                    >
+                    and the extension receives a scoped key that works until it
+                    expires or you revoke it. No long-lived secret is pasted into
+                    the browser.
                 </p>
+                <p id="deviceStatus" class="hint" role="status"></p>
             </div>
 
             <details>
-                <summary>Connect with the device flow instead</summary>
+                <summary>Register an App Key (optional)</summary>
                 <div class="field">
-                    <label for="appId">App Key (pk_…) — optional</label>
+                    <label for="appId">App Key (pk_…)</label>
                     <input type="password" id="appId" autocomplete="off" spellcheck="false" />
                     <p class="hint">
-                        Register an App Key at
+                        The device flow works <strong>without</strong> one — leave
+                        this empty. An App Key only attributes the consent
+                        traffic to your account, so the user's spend shows up
+                        under it. Register one at
                         <a href="https://enter.pollinations.ai/keys" target="_blank" rel="noreferrer"
                             >enter.pollinations.ai/keys</a
-                        >
-                        and the extension runs the standard device flow, so the
-                        reader never pastes a long-lived secret. Leave empty to
-                        paste a key instead.
+                        >.
                     </p>
-                    <button id="device" type="button">Start device flow</button>
-                    <p id="deviceStatus" class="hint" role="status"></p>
+                </div>
+            </details>
+
+            <details>
+                <summary>Paste a secret key instead</summary>
+                <div class="field">
+                    <label for="apiKey">Pollinations secret key (sk_…)</label>
+                    <input type="password" id="apiKey" autocomplete="off" spellcheck="false" />
+                    <p class="hint">
+                        Create one at
+                        <a href="https://enter.pollinations.ai/keys" target="_blank" rel="noreferrer"
+                            >enter.pollinations.ai/keys</a
+                        >. The key stays in this browser session and is only sent
+                        to gen.pollinations.ai.
+                    </p>
                 </div>
             </details>
         </section>
@@ -76,6 +94,7 @@
             <button id="clear" type="button" class="secondary">Forget the key</button>
         </section>
 
+        <script src="lib/storage.js"></script>
         <script src="options.js"></script>
     </body>
 </html>

@@ -38,22 +38,29 @@ the moment the content script stops.
 
 ## Connect
 
-Open the toolbar popup and choose one of two ways to pay with your own Pollen.
+Open the toolbar popup, then choose one of two ways to pay with your own Pollen.
+
+**Device flow** (recommended)
+
+1. Open the extension's options page and press **Connect with the device flow**.
+2. Approve the code on [enter.pollinations.ai/device](https://enter.pollinations.ai/device).
+3. The extension receives a scoped key that works until it expires or you revoke it.
+
+This is the path the Pollinations BYOP reference prescribes for extensions, and
+it needs **no App Key** — the consent screen falls back to the redirect hostname
+and the traffic is simply unattributed. Register an App Key
+(`pk_…`) at [enter.pollinations.ai/keys](https://enter.pollinations.ai/keys) only
+if you want the spend attributed to an account; the field is optional.
 
 **Paste a key** (works immediately)
 
 1. Create a secret key at [enter.pollinations.ai/keys](https://enter.pollinations.ai/keys).
-2. Paste it into the popup.
+2. Paste it into the options page.
 
-**Device flow** (no long-lived secret in the browser)
-
-1. Register an **App Key** (`pk_…`) at [enter.pollinations.ai/keys](https://enter.pollinations.ai/keys).
-2. Open the extension's options page and start the device flow.
-3. Approve the code in your browser. The extension receives a scoped key that
-   works until it expires or is revoked.
-
-Either way the key stays in `chrome.storage.local` in that browser profile and
-is sent **only** to `gen.pollinations.ai` (the generation call) or
+Either way the key lives in `chrome.storage.session` — the extension analogue of
+`sessionStorage`: memory-backed, cleared when the browser closes. There are no
+refresh tokens, so reconnecting is the intended flow rather than an exception.
+It is sent **only** to `gen.pollinations.ai` (the generation call) or
 `enter.pollinations.ai` (the device flow). The extension requests host
 permission for exactly those two origins and nothing else.
 
@@ -61,7 +68,7 @@ permission for exactly those two origins and nothing else.
 
 ## Use
 
-- **Click** an underlined phrase to expand it.
+- **Click** a dotted-underlined phrase to expand it.
 - **Click again** to collapse it.
 - **Tab** to a phrase and press **Enter** or **Space** — every stretchable
   phrase is a real focusable control, not a click-only affordance.
@@ -105,10 +112,13 @@ the model not to repeat the source sentence.
 npm test
 ```
 
-13 tests cover the parts worth testing: sentence segmentation (including
+18 tests cover the parts worth testing: sentence segmentation (including
 lossless rejoining), the stretchable threshold, URL construction, the prompt,
-and two manifest assertions — that the shared helper is loaded before the
-content script, and that the extension requests only the two hosts it calls.
+the expansion padding, and five manifest/source assertions — that the shared
+helper is loaded before the content script, that the extension requests only the
+two hosts it calls, that it declares the Chrome version providing
+`chrome.storage.session.setAccessLevel`, that it never writes the key to
+`chrome.storage.local`, and that the device flow needs no App Key.
 
 ```
 stretchtext/
@@ -117,6 +127,8 @@ stretchtext/
 ├── content.js           # page walker + expand/collapse
 ├── content.css
 ├── background.js        # device flow, balance, message surface
+├── lib/sentences.js     # pure helpers, shared with the tests
+├── lib/storage.js       # opens chrome.storage.session to the content script
 ├── popup.html/.js/.css
 ├── options.html/.js/.css
 ├── icons/
@@ -129,7 +141,10 @@ stretchtext/
 ## Privacy
 
 - No analytics, no telemetry, no remote configuration.
-- The API key is stored in the browser profile and sent only to Pollinations.
+- The API key lives in `chrome.storage.session` for the current browser session
+  only — memory-backed, cleared on browser close. It is never written to disk.
+- The key is sent only to Pollinations: `gen.pollinations.ai` for generation,
+  `enter.pollinations.ai` for the device flow and the balance read.
 - The extension reads page text only to segment it into sentences; the sentence
   text is sent to the Pollinations API solely to generate the expansion the
   reader asked for, which is the same thing any reader-triggered generation

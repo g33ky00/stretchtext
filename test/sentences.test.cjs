@@ -111,3 +111,46 @@ test("the manifest asks only for the hosts it calls", () => {
         "https://enter.pollinations.ai/*",
     ]);
 });
+
+test("declares a Chrome new enough for chrome.storage.session.setAccessLevel", () => {
+    // The key lives in chrome.storage.session, which the content script can
+    // only read after setAccessLevel(TRUSTED_AND_UNTRUSTED_CONTEXTS) — available
+    // from Chrome 127. An older floor would load and then silently lose the key.
+    const manifest = JSON.parse(
+        readFileSync(path.join(root, "manifest.json"), "utf8"),
+    );
+    const [major] = manifest.minimum_chrome_version.split(".").map(Number);
+    assert.ok(
+        major >= 127,
+        `minimum_chrome_version ${manifest.minimum_chrome_version} cannot open session storage`,
+    );
+});
+
+test("never persists the key to chrome.storage.local", () => {
+    // BYOP: "token kept in memory/sessionStorage; expiry handled by re-running
+    // the flow". chrome.storage.local would survive the browser closing.
+    const read = (rel) =>
+        readFileSync(path.join(root, rel), "utf8");
+    for (const rel of ["background.js", "content.js", "popup.js", "options.js"]) {
+        assert.doesNotMatch(
+            read(rel),
+            /chrome\.storage\.local/,
+            `${rel} still touches chrome.storage.local`,
+        );
+        assert.doesNotMatch(
+            read(rel),
+            /localStorage/,
+            `${rel} uses localStorage`,
+        );
+    }
+});
+
+test("the device flow does not require an App Key", () => {
+    // POST /api/device/code accepts an empty client_id — the consent screen
+    // falls back to the redirect hostname and the traffic is unattributed.
+    const background = readFileSync(
+        path.join(root, "background.js"),
+        "utf8",
+    );
+    assert.match(background, /client_id:\s*appId\s*\|\|\s*""/);
+});

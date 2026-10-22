@@ -3,7 +3,7 @@
   "name": "Stretchtext",
   "version": "1.0.0",
   "description": "Turn any web page into stretchtext: click a phrase to grow it where it stands, click again to shrink it back. Readers pay with their own Pollen.",
-  "minimum_chrome_version": "102",
+  "minimum_chrome_version": "127",
   "permissions": ["storage"],
   "host_permissions": [
     "https://gen.pollinations.ai/*",

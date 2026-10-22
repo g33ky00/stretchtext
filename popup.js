@@ -59,4 +59,4 @@ $("connect").addEventListener("click", () => {
     chrome.runtime.openOptionsPage();
 });
 
-void refresh();
+void globalThis.StretchtextStorage?.open().finally(refresh);

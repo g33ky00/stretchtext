@@ -78,6 +78,10 @@ $("device").addEventListener("click", async () => {
     const interval = Math.max(2, started.interval || 5) * 1000;
     const deadline = Date.now() + (started.expires_in || 900) * 1000;
 
+    // RFC 8628: a `slow_down` reply means the client is polling too fast —
+    // back off 5s each time instead of hammering the token endpoint.
+    let intervalMs = interval;
+
     const tick = async () => {
         const result = await send({
             type: "stretchtext/device/poll",
@@ -94,14 +98,17 @@ $("device").addEventListener("click", async () => {
             await load();
             return;
         }
+        if (result.token && result.token.slowDown) {
+            intervalMs += 5000;
+        }
         if (Date.now() > deadline) {
             status.textContent = "The device code expired. Start again.";
             return;
         }
-        setTimeout(() => void tick(), interval);
+        setTimeout(() => void tick(), intervalMs);
     };
 
-    setTimeout(() => void tick(), interval);
+    setTimeout(() => void tick(), intervalMs);
 });
 
-void load();
+void globalThis.StretchtextStorage?.open().finally(load);

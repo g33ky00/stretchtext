@@ -93,6 +93,17 @@ button.secondary {
     color: #8a2f2f;
 }
 
+button.primary {
+    background: #1f6feb;
+    border-color: #1f6feb;
+    color: #fff;
+    width: 100%;
+}
+
+button.primary:hover {
+    background: #1a5fd0;
+}
+
 details {
     margin-top: 12px;
     border-top: 1px solid #e2e2e2;
