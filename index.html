@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Stretchtext — install</title>
+        <style>
+            :root {
+                color-scheme: light dark;
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    "Segoe UI",
+                    sans-serif;
+                line-height: 1.6;
+            }
+            body {
+                margin: 0;
+                padding: 56px 24px 72px;
+                background: #fdfcf9;
+                color: #1c1a17;
+            }
+            main {
+                max-width: 640px;
+                margin: 0 auto;
+            }
+            h1 {
+                font-size: 30px;
+                margin: 0 0 4px;
+            }
+            .tagline {
+                color: #6b655c;
+                font-size: 17px;
+                margin: 0 0 24px;
+            }
+            .badge {
+                display: inline-block;
+                margin: 0 0 28px;
+            }
+            h2 {
+                font-size: 17px;
+                margin: 28px 0 8px;
+            }
+            p,
+            li {
+                font-size: 15px;
+            }
+            code,
+            pre {
+                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                font-size: 0.92em;
+            }
+            pre {
+                background: #f0ede6;
+                border-radius: 8px;
+                padding: 14px 16px;
+                overflow-x: auto;
+            }
+            ol li {
+                margin-bottom: 8px;
+            }
+            a {
+                color: #1a5fb4;
+            }
+            .shot {
+                width: 100%;
+                border-radius: 10px;
+                border: 1px solid #e0dbd0;
+                margin: 24px 0 8px;
+            }
+            .caption {
+                font-size: 13px;
+                color: #7a7469;
+                text-align: center;
+                margin: 0 0 8px;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <h1>Stretchtext</h1>
+            <p class="tagline">
+                Any web page becomes stretchtext: click a phrase to grow it where
+                it stands, click again to shrink it back.
+            </p>
+
+            <a class="badge" href="https://pollinations.ai/?ref=badge">
+                <img
+                    src="https://raw.githubusercontent.com/pollinations/pollinations/main/packages/ui/src/brand/badge-made-with.svg"
+                    alt="Made with pollinations.ai"
+                    width="200"
+                />
+            </a>
+
+            <p>
+                Expansions are generated on demand by the Pollinations API and
+                <strong>billed to the reader's own Pollen</strong>. The extension
+                never pays for anything and holds no shared key.
+            </p>
+
+            <h2>Try it on this page</h2>
+            <p>
+                This install page is itself stretchtext. Click any underlined
+                phrase below to expand it — the extension is running here as a
+                live demo, and the expansion you get is a real Pollinations call.
+            </p>
+            <p>
+                Stretchtext is the idea Ted Nelson described in 1967: text that
+                grows where the reader wants more and shrinks back where they
+                don't. Writing every level by hand was the hard part. Here the
+                elaboration is generated on demand, in the reader's own language
+                and tone, and the original wording is never rewritten.
+            </p>
+            <p>
+                A phrase that is already short — a bare "Yes." — is left alone,
+                because there is nothing worth expanding. Longer sentences become
+                controls: they are focusable, and respond to
+                <code>Enter</code> and <code>Space</code> as well as a click.
+            </p>
+
+            <h2>Install</h2>
+            <p>
+                Source only, no build step, no bundler. Clone or download the
+                repository, then load it unpacked.
+            </p>
+            <pre>git clone https://github.com/g33ky00/stretchtext.git</pre>
+            <ol>
+                <li>
+                    Open <code>chrome://extensions</code> in Chrome, Edge, Brave
+                    or Arc.
+                </li>
+                <li>Enable <strong>Developer mode</strong> (top right).</li>
+                <li>
+                    Click <strong>Load unpacked</strong> and select the
+                    <code>stretchtext/</code> folder.
+                </li>
+            </ol>
+            <p>
+                In Firefox, open
+                <code>about:debugging#/runtime/this-firefox</code>, click
+                <strong>Load Temporary Add-on</strong>, and select
+                <code>manifest.json</code>.
+            </p>
+
+            <h2>Connect</h2>
+            <p>
+                Open the toolbar popup. Either paste a Pollinations secret key
+                from <a href="https://enter.pollinations.ai/keys">enter.pollinations.ai/keys</a>,
+                or register an App Key there and run the device flow so no
+                long-lived secret sits in the browser.
+            </p>
+
+            <h2>Repository</h2>
+            <p>
+                <a href="https://github.com/g33ky00/stretchtext"
+                    >github.com/g33ky00/stretchtext</a
+                >
+                — manifest, content script, service worker, 13 tests, and this
+                page. The key is stored only in the browser profile and is sent
+                only to <code>gen.pollinations.ai</code> and
+                <code>enter.pollinations.ai</code>.
+            </p>
+
+            <img
+                class="shot"
+                src="https://raw.githubusercontent.com/g33ky00/stretchtext/main/docs/screenshot.png"
+                alt="A reading page with two sentences expanded in place by Stretchtext"
+            />
+            <p class="caption">
+                Two sentences grown in place on a real page. Click again and they
+                fold back.
+            </p>
+        </main>
+    </body>
+</html>
