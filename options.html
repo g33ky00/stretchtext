@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Stretchtext — options</title>
+        <link rel="stylesheet" href="options.css" />
+    </head>
+    <body>
+        <h1>Stretchtext</h1>
+        <p class="lede">
+            Stretchtext grows a sentence where the reader wants more and shrinks
+            it back where they do not. Expansions are generated on demand and
+            billed to the reader's own Pollen.
+        </p>
+
+        <section>
+            <h2>Pay with your own Pollen</h2>
+
+            <div class="field">
+                <label for="apiKey">Pollinations secret key (sk_…)</label>
+                <input type="password" id="apiKey" autocomplete="off" spellcheck="false" />
+                <p class="hint">
+                    Create one at
+                    <a href="https://enter.pollinations.ai/keys" target="_blank" rel="noreferrer"
+                        >enter.pollinations.ai/keys</a
+                    >. The key stays in this browser and is only sent to
+                    gen.pollinations.ai.
+                </p>
+            </div>
+
+            <details>
+                <summary>Connect with the device flow instead</summary>
+                <div class="field">
+                    <label for="appId">App Key (pk_…) — optional</label>
+                    <input type="password" id="appId" autocomplete="off" spellcheck="false" />
+                    <p class="hint">
+                        Register an App Key at
+                        <a href="https://enter.pollinations.ai/keys" target="_blank" rel="noreferrer"
+                            >enter.pollinations.ai/keys</a
+                        >
+                        and the extension runs the standard device flow, so the
+                        reader never pastes a long-lived secret. Leave empty to
+                        paste a key instead.
+                    </p>
+                    <button id="device" type="button">Start device flow</button>
+                    <p id="deviceStatus" class="hint" role="status"></p>
+                </div>
+            </details>
+        </section>
+
+        <section>
+            <h2>Expansion</h2>
+            <div class="field">
+                <label for="model">Model used for expansions</label>
+                <select id="model">
+                    <option value="openai/gpt-5.4-nano">
+                        openai/gpt-5.4-nano — cheapest
+                    </option>
+                    <option value="openai/gpt-5-nano">openai/gpt-5-nano</option>
+                    <option value="google/gemini-2.5-flash-lite">
+                        google/gemini-2.5-flash-lite
+                    </option>
+                    <option value="meituan/longcat-2.0">meituan/longcat-2.0</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="enabled">Enabled on new pages</label>
+                <input type="checkbox" id="enabled" />
+            </div>
+        </section>
+
+        <section>
+            <h2>Status</h2>
+            <p id="status" role="status">Loading…</p>
+            <button id="clear" type="button" class="secondary">Forget the key</button>
+        </section>
+
+        <script src="options.js"></script>
+    </body>
+</html>

@@ -1,0 +1,1 @@
+{"name": "stretchtext", "private": true, "version": "1.0.0", "description": "Browser extension that turns any web page into stretchtext. Readers pay with their own Pollinations Pollen.", "scripts": {"test": "node --test test/sentences.test.cjs"}, "devDependencies": {}}

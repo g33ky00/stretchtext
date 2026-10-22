@@ -1,0 +1,49 @@
+/* Stretchtext phrase markers.
+   Deliberately quiet: the reader should notice the affordance on hover, not
+   on page load. */
+
+.stretch-phrase {
+    border-radius: 2px;
+    transition: background-color 120ms ease;
+}
+
+.stretch-phrase[data-stretchable] {
+    cursor: pointer;
+    outline: none;
+}
+
+.stretch-phrase[data-stretchable]:hover {
+    background-color: color-mix(in srgb, currentColor 8%, transparent);
+    box-shadow: 0 1px 0 0 color-mix(in srgb, currentColor 35%, transparent);
+}
+
+.stretch-phrase[data-stretchable]:focus-visible {
+    background-color: color-mix(in srgb, currentColor 12%, transparent);
+    box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.stretch-phrase[aria-expanded="true"] {
+    background-color: color-mix(in srgb, currentColor 6%, transparent);
+}
+
+/* The generated elaboration, set slightly quieter than the page text. */
+.stretch-more {
+    color: color-mix(in srgb, currentColor 78%, transparent);
+    font-size: 0.97em;
+}
+
+.stretch-more--loading {
+    color: color-mix(in srgb, currentColor 45%, transparent);
+    font-style: italic;
+}
+
+.stretch-more--error {
+    color: #b3261e;
+    font-size: 0.85em;
+}
+
+@media (prefers-contrast: more) {
+    .stretch-phrase[data-stretchable]:hover {
+        box-shadow: 0 1px 0 0 currentColor;
+    }
+}
