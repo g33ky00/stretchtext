@@ -4,7 +4,8 @@
     "module": "ESNext",
     "strict": true,
     "skipLibCheck": false,
-    "noEmit": true
+    "noEmit": true,
+    "allowJs": true
   },
-  "files": []
+  "include": ["*.js"]
 }
