@@ -1,5 +1,7 @@
 # Stretchtext
 
+[![CI](https://github.com/g33ky00/stretchtext/actions/workflows/ci-unified.yml/badge.svg)](https://github.com/g33ky00/stretchtext/actions/workflows/ci-unified.yml)
+
 > Browser extension that turns any web page into **stretchtext**: click a phrase to grow it where it stands, click again to shrink it back. Readers pay with their own Pollinations Pollen.
 
 [![Language](https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?logo=javascript&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -122,3 +124,15 @@ Ce projet est sous licence **MIT**. Voir [`LICENSE`](./LICENSE).
 
 ### 🟡 Planifié
 - [ ] Publication sur Chrome Web Store
+
+## About
+
+Projet maintenu par g33ky00.
+
+## Contributing
+
+Les contributions sont les bienvenues via pull request.
+
+## License
+
+MIT
