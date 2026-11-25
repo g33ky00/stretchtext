@@ -136,3 +136,11 @@ Les contributions sont les bienvenues via pull request.
 ## License
 
 MIT
+
+## Structure
+
+See repository tree.
+
+## Stack
+
+See source code.
