@@ -59,6 +59,7 @@ stretchtext/
 | Composant | Version | Source |
 |-----------|---------|--------|
 | Extension (manifest) | 1.0.0 | `manifest.json` |
+| Version | 1.0.0 | `package.json` |
 | Manifest V3 | 3 | `manifest.json` |
 | Chrome minimum | 127 | `manifest.json` (`minimum_chrome_version`) |
 | Node.js (tests) | LTS | `package.json` (`scripts.test`) |
