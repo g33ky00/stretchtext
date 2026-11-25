@@ -21,32 +21,32 @@
 - [Changelog](#changelog)
 - [Roadmap](#roadmap)
 
-## À propos
+## About
 
-**Quoi** — Stretchtext est une extension navigateur (Manifest V3) qui réécrit les blocs de prose d'une page en phrases cliquables : cliquer développe la phrase en place via l'API Pollinations, recliquer la réduit.
+**What** — Stretchtext is a browser extension (Manifest V3) that rewrites prose blocks on a page into clickable sentences: clicking expands the sentence in place via the Pollinations API, clicking again collapses it.
 
-**Pour qui** — Lecteurs qui veulent plus de détail sur une phrase sans quitter la page ni ouvrir un nouvel onglet.
+**Who** — Readers who want more detail on a sentence without leaving the page or opening a new tab.
 
-**Pourquoi** — Éviter la rupture de lecture (nouvel onglet, reformatage) tout en gardant le coût à la charge du lecteur (BYOP — Bring Your Own Pollen).
+**Why** — Avoid breaking the reading flow (new tab, reformatting) while keeping the cost on the reader (BYOP — Bring Your Own Pollen).
 
-**Qui** — Auteur/mainteneur : `g33ky00` (compte GitHub). Contact via les issues du dépôt.
+**Who** — Author/maintainer: `g33ky00` (GitHub account). Contact via repository issues.
 
-## Structure du dépôt
+## Structure
 
 ```text
 stretchtext/
 ├── manifest.json          # MV3
-├── background.js          # device flow, balance, surface de messages
-├── content.js             # walker de page + expand/collapse
+├── background.js          # device flow, balance, message surface
+├── content.js             # page walker + expand/collapse
 ├── content.css
 ├── lib/
-│   ├── sentences.js       # helpers purs, partagés avec les tests
-│   └── storage.js         # ouvre chrome.storage.session au content script
+│   ├── sentences.js       # pure helpers, shared with tests
+│   └── storage.js         # opens chrome.storage.session to the content script
 ├── popup.html / popup.js / popup.css
 ├── options.html / options.js / options.css
 ├── icons/
 ├── demo/
-│   └── index.html         # page contrôlée pour captures
+│   └── index.html         # controlled page for screenshots
 ├── docs/
 │   └── screenshot.png
 ├── test/
@@ -54,7 +54,7 @@ stretchtext/
 └── package.json
 ```
 
-## Stack technique
+## Stack
 
 | Composant | Version | Source |
 |-----------|---------|--------|
@@ -88,23 +88,23 @@ Puis charger l'extension non empaquetée :
 - [x] Protection XSS : réécriture uniquement de nœuds texte ; pas d'injection HTML arbitraire.
 - [x] Aucune télémétrie, analytics ni configuration distante.
 
-## Contribution
+## Contributing
 
-### Conventions de commit
+### Commit conventions
 
 | Préfixe | Usage |
 |---------|-------|
-| `feat:` | Nouvelle fonctionnalité |
-| `fix:` | Correction |
+| `feat:` | New feature |
+| `fix:` | Bug fix |
 | `docs:` | Documentation |
 | `chore:` | Maintenance |
 | `test:` | Tests |
 
-Processus : branche dédiée, PR vers `main`, `npm test` vert.
+Process: dedicated branch, PR to `main`, `npm test` green.
 
-## Licence
+## License
 
-Ce projet est sous licence **MIT**. Voir [`LICENSE`](./LICENSE).
+This project is licensed under **MIT**. See [`LICENSE`](./LICENSE).
 
 ## Changelog
 
